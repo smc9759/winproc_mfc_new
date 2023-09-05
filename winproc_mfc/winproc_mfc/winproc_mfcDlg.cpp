@@ -152,11 +152,42 @@ HCURSOR Cwinproc_mfcDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
-
+#include <windows.h>
 
 LRESULT Cwinproc_mfcDlg::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-	// TODO: Add your specialized code here and/or call the base class
+	CDC* cdc;
+	HDC hdc;
+	static int x;
+	static int y;
+	static BOOL bnowDraw = FALSE;
+	switch (message) {
+	case WM_LBUTTONDOWN:
+		x = LOWORD(lParam);
+		y = HIWORD(lParam);
+		bnowDraw = TRUE;
+		return 0;
+	case WM_MOUSEMOVE:
+		if (bnowDraw == TRUE) {
+			cdc = GetDC();
+			hdc = cdc->GetSafeHdc();
+			MoveToEx(hdc, x, y, NULL);
+			x = LOWORD(lParam);
+			y = HIWORD(lParam);
+			LineTo(hdc, x, y);
+			ReleaseDC(cdc);
+		}
+		return 0;
+	case WM_LBUTTONUP:
+		bnowDraw = FALSE;
+		return 0;
+	case WM_LBUTTONDBLCLK:
+		Invalidate();
+		return 0;
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		return 0;
+	}
 
 	return CDialogEx::DefWindowProc(message, wParam, lParam);
 }
