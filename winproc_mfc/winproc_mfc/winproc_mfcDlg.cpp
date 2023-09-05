@@ -152,3 +152,11 @@ HCURSOR Cwinproc_mfcDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+
+LRESULT Cwinproc_mfcDlg::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+{
+	// TODO: Add your specialized code here and/or call the base class
+
+	return CDialogEx::DefWindowProc(message, wParam, lParam);
+}

@@ -31,4 +31,5 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+	virtual LRESULT DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 };
